@@ -5,6 +5,8 @@
  */
 package br.UFSC.INE5611.trabalho;
 
+import br.UFSC.INE5611.trabalho.bosque.Bosque;
+
 /**
  *
  * @author Ismael
@@ -15,7 +17,8 @@ public class Trabalho2_SO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Bosque bosque = new Bosque();
+        bosque.largada();
     }
-    
+
 }
