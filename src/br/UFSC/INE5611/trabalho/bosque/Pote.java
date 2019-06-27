@@ -14,77 +14,80 @@ import br.UFSC.INE5611.trabalho.cacadores.Cachorro;
  */
 public class Pote extends Thread {
 
-    public static final int MOEDAS_INICIAIS = 4;
-    private final Object lock1 = new Object();
-    int num;
-    int moedas;
+    int numeroPote;
+    int numeroMoedas;
 
     ArrayList<Pote> caminhos;
     ArrayList<Cachorro> cachorros_dormindo;
 
     public Pote(int num) {
-        this.num = num;
-        this.moedas = Pote.MOEDAS_INICIAIS;
+        this.numeroPote = num;
+        this.numeroMoedas = Constantes.MOEDAS_INICIAIS.getNumero();
         this.caminhos = new ArrayList<>();
         this.cachorros_dormindo = new ArrayList<>();
     }
 
-    public void add_cachorro_dormindo(Cachorro cachorro) throws InterruptedException {
+    public void addCachorroDormindo(Cachorro cachorro) throws InterruptedException {
         cachorro.dormir();
         this.cachorros_dormindo.add(cachorro);
     }
 
-    public void procurar(Cachorro cachorro_procurando) throws InterruptedException {
-        cachorro_procurando.sleep(Bosque.UNIT_TEMPO);
+    public void procurar(Cachorro cachorroProcurando) throws InterruptedException {
+        cachorroProcurando.sleep(Constantes.TEMPO.getNumero());
 
-        int tres_moedas = this.get_3_moedas();
+        int tres_moedas = this.getTresMoedas();
         if (tres_moedas == 0) {
-            this.add_cachorro_dormindo(cachorro_procurando);
+            this.addCachorroDormindo(cachorroProcurando);
         } else {
             synchronized (this) {
-                cachorro_procurando.add_moedas(tres_moedas);
-                this.desconta_moedas(tres_moedas);
+                cachorroProcurando.add_moedas(tres_moedas);
+                this.removeMoedas(tres_moedas);
                 int n_caminho = Bosque.numero_entre(0, this.caminhos.size());
-                cachorro_procurando.setPote_atual(
+                cachorroProcurando.setPote_atual(
                         this.caminhos.get(n_caminho)
                 );
             }
         }
     }
 
-    public Pote caminho_volta() {
+    public Pote caminhoVolta() {
 
         Pote volta = null;
         int min = 20;
         for (Pote p : this.caminhos) {
-            if (p.get_num() <= min) {
+            if (p.getNumero() <= min) {
                 volta = p;
-                min = volta.get_num();
+                min = volta.getNumero();
             }
         }
         return volta;
     }
 
-    public int get_3_moedas() {
-        return Math.min(this.get_moedas(), 3);
+    public int getTresMoedas() {
+        return Math.min(this.getMoedas(), 3);
     }
 
-    public int get_num() {
-        return num;
+    public int getNumero() {
+        return numeroPote;
     }
 
-    public int get_moedas() {
-        return moedas;
+    public int getMoedas() {
+        return numeroMoedas;
     }
 
     public void add_1_moeda() {
-        if (this.moedas == 0) {
-            this.moedas = 1;
+        if (this.numeroMoedas == 0) {
+            this.numeroMoedas = 1;
         }
     }
 
-    public void desconta_moedas(int moedas) {
-        this.moedas -= moedas;
+    public void removeMoedas(int moedas) {
+        if ((this.numeroMoedas - moedas) <= 0) {
+            this.numeroMoedas = 0;
+        } else {
+            this.numeroMoedas -= moedas;
+        }
+
     }
 
     public ArrayList get_caminhos() {
@@ -93,7 +96,6 @@ public class Pote extends Thread {
 
     public void set_caminhos(ArrayList caminhos) {
         this.caminhos = caminhos;
-//        this.teste();
     }
 
     public ArrayList get_cachorros_dormindo() {
@@ -105,12 +107,12 @@ public class Pote extends Thread {
         Pote volta = null;
         int min = 20;
         for (Pote p : this.caminhos) {
-            if (p.get_num() <= min) {
+            if (p.getNumero() <= min) {
                 volta = p;
             }
         }
 
-        System.out.println(this.num + " = " + volta.get_num());
+        System.out.println(this.numeroPote + " = " + volta.getNumero());
     }
 
 }

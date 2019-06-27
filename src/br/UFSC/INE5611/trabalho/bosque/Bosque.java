@@ -13,25 +13,10 @@ import br.UFSC.INE5611.trabalho.cacadores.CachorroVermelho;
 
 public class Bosque {
 
-    public static final int COR_VERMELHO = 0;
-    public static final int COR_AMARELO = 1;
-    public static final int COR_VERDE = 2;
-    public static final int COR_AZUL = 3;
-    public static final int UNIT_TEMPO = 500;
-    public static final int MOEDAS_PARA_GANHAR = 50;
-    public static final int MOEDAS_PARA_VOLTAR = 20;
-    public static final int TEMPO_DORMIR = 60;
-
-    public static final String[] COR_NOME = {
-        "Vermelho", "Amarelo", "Verde", "Azul"
-    };
-    public static final String[] PRINT_PREFIX = {
-        (char) 27 + "[31m", (char) 27 + "[33m", (char) 27 + "[32m", (char) 27 + "[34m"
-    };
-    public static final String PRINT_SUFIX = (char) 27 + "[0m";
-
+    public static final String[] COR_NOME = {"Vermelho", "Amarelo", "Verde", "Azul"};
+    
     ArrayList<Pote> potes;
-    int num_cachorros;
+    int numeroCachorros;
     Pote init;
     boolean disputa_acontecendo = true;
 
@@ -53,14 +38,13 @@ public class Bosque {
     }
 
     public Bosque() {
-        this.cacador_amarelo = new Cacador(Bosque.COR_AMARELO);
-        this.cacador_verde = new Cacador(Bosque.COR_VERDE);
-        this.cacador_azul = new Cacador(Bosque.COR_AZUL);
+        this.cacador_amarelo = new Cacador(Constantes.AMARELO.getNumero());
+        this.cacador_verde = new Cacador(Constantes.AMARELO.getNumero());
+        this.cacador_azul = new Cacador(Constantes.AMARELO.getNumero());
         this.set_mapa();
     }
 
     public void largada() {
-//        this.disputa_acontecendo = true;
         cacador_amarelo.lancar_cachorro();
         cacador_verde.lancar_cachorro();
         cacador_azul.lancar_cachorro();
@@ -77,18 +61,18 @@ public class Bosque {
 
     public void receber_cachorro(Cachorro cachorro) {
         Cacador cacador_recebedor = null;
-        if (cachorro.getCor() == Bosque.COR_AMARELO) {
+        if (cachorro.getCor() == Constantes.AMARELO.getNumero()) {
             cacador_recebedor = this.cacador_amarelo;
         }
-        if (cachorro.getCor() == Bosque.COR_VERDE) {
+        if (cachorro.getCor() == Constantes.VERDE.getNumero()) {
             cacador_recebedor = this.cacador_verde;
         }
-        if (cachorro.getCor() == Bosque.COR_AZUL) {
+        if (cachorro.getCor() == Constantes.AZUL.getNumero()) {
             cacador_recebedor = this.cacador_azul;
         }
         cacador_recebedor.receber_cachorro(cachorro);
-        System.out.println(cacador_recebedor.getMoedas() + " = " + Bosque.MOEDAS_PARA_GANHAR + " = " + this.disputa_acontecendo);
-        if (cacador_recebedor.getMoedas() >= Bosque.MOEDAS_PARA_GANHAR && this.disputa_acontecendo) {
+        System.out.println(cacador_recebedor.getMoedas() + " = " + Constantes.MOEDAS_PARA_GANHAR.getNumero() + " = " + this.disputa_acontecendo);
+        if (cacador_recebedor.getMoedas() >= Constantes.MOEDAS_PARA_GANHAR.getNumero() && this.disputa_acontecendo) {
             this.disputa_acontecendo = false;
             System.out.println("");
 
@@ -150,11 +134,11 @@ public class Bosque {
     }
 
     public int get_num_cachorros() {
-        return num_cachorros;
+        return numeroCachorros;
     }
 
     public void add_num_cachorros() {
-        this.num_cachorros += 1;
+        this.numeroCachorros += 1;
     }
 
     public void set_init(Pote init) {

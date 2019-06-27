@@ -6,6 +6,7 @@
 package br.UFSC.INE5611.trabalho.cacadores;
 
 import br.UFSC.INE5611.trabalho.bosque.Bosque;
+import br.UFSC.INE5611.trabalho.bosque.Constantes;
 import br.UFSC.INE5611.trabalho.bosque.Pote;
 
 /**
@@ -32,15 +33,15 @@ public class Cachorro extends Thread {
     public void run() {
         try {
             if (Bosque.getInstance().is_disputa_acontecendo() && !this.finalizar) {
-                this.anuncia_procura_pote(pote_atual.get_num());
+                this.anuncia_procura_pote(pote_atual.getNumero());
                 pote_atual.procurar(this);
                 this.run();
                 this.has_started = true;
             } else if (Bosque.getInstance().is_disputa_acontecendo() && this.finalizar) {
-                Pote pote_volta = pote_atual.caminho_volta();
-                this.anuncia_retorno_pote(pote_atual.get_num(), pote_volta.get_num());
+                Pote pote_volta = pote_atual.caminhoVolta();
+                this.anuncia_retorno_pote(pote_atual.getNumero(), pote_volta.getNumero());
 
-                if (pote_volta.get_num() == 1) {
+                if (pote_volta.getNumero() == 1) {
                 } else {
                     this.setPote_atual(pote_volta);
                     this.run();
@@ -48,7 +49,7 @@ public class Cachorro extends Thread {
                 }
             }
 
-            Cachorro.sleep(Bosque.UNIT_TEMPO);
+            Cachorro.sleep(Constantes.TEMPO.getNumero());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -64,7 +65,7 @@ public class Cachorro extends Thread {
 
     public void add_moedas(int moedas) {
         this.moedas += moedas;
-        if (this.moedas >= Bosque.MOEDAS_PARA_VOLTAR) {
+        if (this.moedas >= Constantes.MOEDAS_PARA_VOLTAR.getNumero()) {
 //            System.out.println("Voltar para o dono");
             this.finalizar = true;
         }
@@ -72,18 +73,18 @@ public class Cachorro extends Thread {
 
     public void dormir() throws InterruptedException {
         System.out.println("Dormir");
-        Cachorro.sleep(Bosque.UNIT_TEMPO * Bosque.TEMPO_DORMIR);
+        Cachorro.sleep(Constantes.TEMPO.getNumero() * Constantes.TEMPO.getNumero());
         
     }
 
     public void anuncia_procura_pote(int i) {
-        System.out.println(Bosque.PRINT_PREFIX[this.getCor()] + "Cachorro " + Bosque.COR_NOME[this.getCor()] + " procurando moedas no pote " + (i) + Bosque.PRINT_SUFIX);
+        System.out.println("Cachorro " + Bosque.COR_NOME[this.getCor()] + " procurando moedas no pote " + (i));
 
     }
 
 
     public void anuncia_retorno_pote(int i, int j) {
-        System.out.println(Bosque.PRINT_PREFIX[this.getCor()] + "Cachorro " + Bosque.COR_NOME[this.getCor()] + " voltando a partir do pote" + (i) + " para o pote " + j + Bosque.PRINT_SUFIX);
+        System.out.println("Cachorro " + Bosque.COR_NOME[this.getCor()] + " voltando a partir do pote" + (i) + " para o pote " + j );
 
     }
 

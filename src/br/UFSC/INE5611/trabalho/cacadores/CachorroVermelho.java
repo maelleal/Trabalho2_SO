@@ -6,6 +6,7 @@
 package br.UFSC.INE5611.trabalho.cacadores;
 
 import br.UFSC.INE5611.trabalho.bosque.Bosque;
+import br.UFSC.INE5611.trabalho.bosque.Constantes;
 import br.UFSC.INE5611.trabalho.bosque.Pote;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,7 +24,7 @@ public class CachorroVermelho extends Thread {
     public static CachorroVermelho instancia;
 
     public static CachorroVermelho getInstance() {
-        
+
         if (instancia == null) {
             CachorroVermelho gu = new CachorroVermelho();
             gu.setDaemon(true);
@@ -50,10 +51,10 @@ public class CachorroVermelho extends Thread {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().get_pote_n(pote_n);
 
-                System.out.println(Bosque.PRINT_PREFIX[0] + "Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.get_num()) + " || " + pote.get_moedas() + Bosque.PRINT_SUFIX);
-                if (pote.get_moedas() == 0) {
-
+                System.out.println(("Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
+                if (pote.getMoedas() == 0) {
                     pote.add_1_moeda();
+                    System.out.println("Cachorro " + Bosque.COR_NOME[0] + " Adicionou 1 moeda no pode " + pote.getNumero());
                 }
 
                 if (pote_n == 19) {
@@ -70,7 +71,32 @@ public class CachorroVermelho extends Thread {
                 } catch (InterruptedException ex) {
                 }
             }
-        }, 0, Bosque.UNIT_TEMPO * 2, TimeUnit.MILLISECONDS);
+        }, 0, Constantes.TEMPO.getNumero() * 2, TimeUnit.MILLISECONDS);
     }
 
+//    public void teste() {
+//        if (this.verificando) {
+//            Pote pote = Bosque.getInstance().get_pote_n(pote_n);
+//
+//            System.out.println(("Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.get_num()) + " || " + pote.getMoedas()).toUpperCase());
+//            if (pote.getMoedas() == 0) {
+//                pote.add_1_moeda();
+//                System.out.println("Cachorro " + Bosque.COR_NOME[0] + "Adicionou 1 moéda no pode " + pote.get_num());
+//            }
+//
+//            if (pote_n == 19) {
+//                pote_n = 0;
+//            } else {
+//                pote_n++;
+//            }
+//        } else {
+//            future.cancel(false);
+//            execService.shutdown();
+//
+//            try {
+//                this.join();
+//            } catch (InterruptedException ex) {
+//            }
+//        }
+//    }
 }

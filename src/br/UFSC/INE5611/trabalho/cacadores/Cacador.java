@@ -91,11 +91,11 @@ public class Cacador {
     }
 
     public void anuncia_qtd_moedas() {
-        System.out.println(Bosque.PRINT_PREFIX[this.getCor()] + "Caçador " + Bosque.COR_NOME[this.getCor()] + " possui " + (this.getMoedas()) + " moedas" + Bosque.PRINT_SUFIX);
+        System.out.println("Caçador " + Bosque.COR_NOME[this.getCor()] + " possui " + (this.getMoedas()) + " moedas");
 
     }
 
     public void anuncia_lancar_cachorro() {
-        System.out.println(Bosque.PRINT_PREFIX[this.getCor()] + "Caçador " + Bosque.COR_NOME[this.getCor()] + " lança cachorro " + cachorro_em_campo + Bosque.PRINT_SUFIX);
+        System.out.println("Caçador " + Bosque.COR_NOME[this.getCor()] + " lança cachorro " + cachorro_em_campo);
     }
 }
