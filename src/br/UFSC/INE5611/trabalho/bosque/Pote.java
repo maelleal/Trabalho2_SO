@@ -54,7 +54,7 @@ public class Pote extends Thread {
                 min = volta.getNumero();
             }
         }
-        System.out.println(" Do pote " +this.numeroPote + " ->  volta para pote " + volta.getNumero());
+        System.out.println(" Do pote " + this.numeroPote + " ->  volta para pote " + volta.getNumero());
         return volta;
     }
 
@@ -97,15 +97,26 @@ public class Pote extends Thread {
         return cachorrosDormindo;
     }
 
-
-    public void cachorroPegaMoedas(Cachorro cachorro, int moedas) {
+    public void cachorroPegaMoedas(Cachorro cachorro, int moedas) throws InterruptedException {
         synchronized (this) {
-            cachorro.cachorroPegaMoedas(moedas);
+            //cachorro.cachorroPegaMoedas(moedas);
             this.removeMoedas(moedas);
-            int caminhoProximoPote = Bosque.caminhoRandom(0, this.caminhos.size());
-            System.out.println("O proximo pode será o "+this.caminhos.get(caminhoProximoPote)
-                    +"\n----------------------------------------------------------------------");
-            cachorro.setPoteAtual(this.caminhos.get(caminhoProximoPote));
+            cachorro.setMoedas(cachorro.getMoedas() + moedas);
+            
+            //se estiver com as 20 ou mais moedas, seta como rico
+            if (cachorro.getMoedas() >= Constantes.MOEDAS_PARA_VOLTAR.getNumero()) {
+                System.out.println("Voltar para o cacador");
+                cachorro.setCachorroRico(true);
+            } else {
+                
+                //se não, segue para o proximo pote
+                int caminhoProximoPote = Bosque.caminhoRandom(0, this.caminhos.size());
+                System.out.println("O proximo pode será o " + this.caminhos.get(caminhoProximoPote)
+                    + "--------------------------");
+                
+                cachorro.setPoteAtual(this.caminhos.get(caminhoProximoPote));
+            }
+            cachorro.dormirCurto();
         }
     }
 

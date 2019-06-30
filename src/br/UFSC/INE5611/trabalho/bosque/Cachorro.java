@@ -67,13 +67,14 @@ public class Cachorro extends Thread {
         this.rodando = rodando;
     }
 
-    public void cachorroPegaMoedas(int moedas) {
-        this.moedas += moedas;
-        if (this.moedas >= Constantes.MOEDAS_PARA_VOLTAR.getNumero()) {
-            System.out.println("Voltar para o cacador");
-            this.cachorroRico = true;
-        }
-    }
+//    public void cachorroPegaMoedas(int moedas) throws InterruptedException {
+//        this.moedas += moedas;
+//        if (this.moedas >= Constantes.MOEDAS_PARA_VOLTAR.getNumero()) {
+//            System.out.println("Voltar para o cacador");
+//            this.cachorroRico = true;
+//        }
+//        dormir();
+//    }
 
     public void dormir() throws InterruptedException {
         System.out.println("Botando o cachorro para dormir");
@@ -81,6 +82,11 @@ public class Cachorro extends Thread {
         // Thread dorme pelo tempo passado (60ut * 100mls)
         // cede o processador para outra Thread
         Cachorro.sleep(Constantes.SLEEP.getNumero());
+    }
+
+    public void dormirCurto() throws InterruptedException {
+        System.out.println("Aguardando 1ut");
+        Cachorro.sleep(Constantes.SHORTSLEEP.getNumero());
     }
 
     public int getMoedas() {
@@ -101,6 +107,14 @@ public class Cachorro extends Thread {
 
     public int getCor() {
         return cor;
+    }
+    
+    public boolean isCachorroRico() {
+        return cachorroRico;
+    }
+
+    public void setCachorroRico(boolean cachorroRico) {
+        this.cachorroRico = cachorroRico;
     }
 
 }

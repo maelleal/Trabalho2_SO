@@ -24,10 +24,10 @@ public class CachorroVermelho extends Thread {
 
     public static CachorroVermelho getInstance() {
         if (instancia == null) {
-            instancia = new CachorroVermelho();
-//            CachorroVermelho gu = new CachorroVermelho();
-//            gu.setDaemon(true);
-//            instancia = gu;
+//            instancia = new CachorroVermelho();
+            CachorroVermelho gu = new CachorroVermelho();
+            gu.setDaemon(true);
+            instancia = gu;
         }
         return instancia;
     }
@@ -45,6 +45,10 @@ public class CachorroVermelho extends Thread {
 
     @Override
     public void run() {
+    //        command - the task to execute
+    //        initialDelay - the time to delay first execution
+    //        period - the period between successive executions
+    //        unit - the time unit of the initialDelay and period parameters
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().getPoteNumero(numeroPote);
@@ -69,7 +73,7 @@ public class CachorroVermelho extends Thread {
                 } catch (InterruptedException ex) {
                 }
             }
-        }, 0, Constantes.SLEEP.getNumero() * 2, TimeUnit.MILLISECONDS);
+        }, 0, Constantes.UT.getNumero(), TimeUnit.MILLISECONDS);
     }
 
 //    public void teste() {
