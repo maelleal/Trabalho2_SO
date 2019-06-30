@@ -6,7 +6,6 @@
 package br.UFSC.INE5611.trabalho.bosque;
 
 import java.util.ArrayList;
-import br.UFSC.INE5611.trabalho.cacadores.Cachorro;
 
 /**
  *
@@ -42,7 +41,7 @@ public class Pote extends Thread {
             synchronized (this) {
                 cachorroProcurando.add_moedas(tres_moedas);
                 this.removeMoedas(tres_moedas);
-                int n_caminho = Bosque.numero_entre(0, this.caminhos.size());
+                int n_caminho = Bosque.caminhoRandom(0, this.caminhos.size());
                 cachorroProcurando.setPote_atual(
                         this.caminhos.get(n_caminho)
                 );

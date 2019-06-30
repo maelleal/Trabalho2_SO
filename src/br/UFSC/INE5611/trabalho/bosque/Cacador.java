@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.UFSC.INE5611.trabalho.cacadores;
+package br.UFSC.INE5611.trabalho.bosque;
 
 import br.UFSC.INE5611.trabalho.bosque.Bosque;
 
@@ -53,7 +53,7 @@ public class Cacador {
             this.set_cachorro_em_campo(2);
             anuncia_lancar_cachorro();
 
-            cachorro2.setPote_atual(Bosque.getInstance().get_pote_n(1));
+            cachorro2.setPote_atual(Bosque.getInstance().getPoteNumero(1));
 
                 cachorro2.start();
 
@@ -63,7 +63,7 @@ public class Cacador {
             anuncia_lancar_cachorro();
 
 
-            cachorro1.setPote_atual(Bosque.getInstance().get_pote_n(1));
+            cachorro1.setPote_atual(Bosque.getInstance().getPoteNumero(1));
 
                 cachorro1.start();
 
@@ -75,7 +75,7 @@ public class Cacador {
         this.cachorro_em_campo = i;
     }
 
-    public void receber_cachorro(Cachorro cachorro) {
+    public void receberCachorro(Cachorro cachorro) {
         this.moedas += cachorro.getMoedas();
         cachorro.setMoedas(0);
         this.anuncia_qtd_moedas();

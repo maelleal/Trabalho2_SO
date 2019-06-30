@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.UFSC.INE5611.trabalho.cacadores;
+package br.UFSC.INE5611.trabalho.bosque;
 
 import br.UFSC.INE5611.trabalho.bosque.Bosque;
 import br.UFSC.INE5611.trabalho.bosque.Constantes;
@@ -32,12 +32,12 @@ public class Cachorro extends Thread {
     @Override
     public void run() {
         try {
-            if (Bosque.getInstance().is_disputa_acontecendo() && !this.finalizar) {
+            if (Bosque.getInstance().isDisputaAcontecendo() && !this.finalizar) {
                 this.anuncia_procura_pote(pote_atual.getNumero());
                 pote_atual.procurar(this);
                 this.run();
                 this.has_started = true;
-            } else if (Bosque.getInstance().is_disputa_acontecendo() && this.finalizar) {
+            } else if (Bosque.getInstance().isDisputaAcontecendo() && this.finalizar) {
                 Pote pote_volta = pote_atual.caminhoVolta();
                 this.anuncia_retorno_pote(pote_atual.getNumero(), pote_volta.getNumero());
 

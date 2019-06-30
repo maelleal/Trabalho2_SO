@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.UFSC.INE5611.trabalho.cacadores;
+package br.UFSC.INE5611.trabalho.bosque;
 
 import br.UFSC.INE5611.trabalho.bosque.Bosque;
 import br.UFSC.INE5611.trabalho.bosque.Constantes;
@@ -49,7 +49,7 @@ public class CachorroVermelho extends Thread {
     public void run() {
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
-                Pote pote = Bosque.getInstance().get_pote_n(pote_n);
+                Pote pote = Bosque.getInstance().getPoteNumero(pote_n);
 
                 System.out.println(("Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
                 if (pote.getMoedas() == 0) {
