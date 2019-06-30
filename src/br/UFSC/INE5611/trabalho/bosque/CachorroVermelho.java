@@ -32,8 +32,9 @@ public class CachorroVermelho extends Thread {
         return instancia;
     }
 
-    ScheduledExecutorService execService = Executors.newSingleThreadScheduledExecutor();
-    ScheduledFuture<?> future;
+    ScheduledExecutorService execService = Executors.newSingleThreadScheduledExecutor(); //unica thread
+    //A delayed result-bearing action that can be cancelled. Usually a scheduled future is the result of scheduling a task with a
+    ScheduledFuture<?> future; // ppara poder ser cancelada
 
     public synchronized void set_verificando() {
         this.verificando = true;
@@ -49,6 +50,8 @@ public class CachorroVermelho extends Thread {
     //        initialDelay - the time to delay first execution
     //        period - the period between successive executions
     //        unit - the time unit of the initialDelay and period parameters
+    
+    //        a cada 2ut ele lança o cachorro vermelho
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().getPoteNumero(numeroPote);
