@@ -15,14 +15,17 @@ public class Cacador {
 
     int cor;
     int moedas;
-    private int cachorro_em_campo;
+    private int cachorroNoBosque;
     Cachorro cachorro1;
     Cachorro cachorro2;
 
     public Cacador(int cor) {
         this.cor = cor;
         this.moedas = 0;
-        this.cachorro_em_campo = 2;
+        this.cachorroNoBosque = 2;
+        // mesma coisa que Thread cachorro1 = new Thread(Cachorro) se implementasse Runable
+        // Cachorro é onde está o método run()
+        // mas só começa a rodar com start()
         this.cachorro1 = new Cachorro(this.cor);
         this.cachorro2 = new Cachorro(this.cor);
 
@@ -36,49 +39,42 @@ public class Cacador {
         return cachorro2;
     }
 
-    public Cachorro get_cachorro_vez() {
-        if (cachorro_em_campo == 1) {
+    public Cachorro getCachorroNoBosque() {
+        if (cachorroNoBosque == 1) {
             return cachorro1;
         } else {
             return cachorro2;
-
         }
     }
 
-    public void lancar_cachorro() {
+    public void cachorroEntraNoBosque() {
+        if (cachorroNoBosque == 1) {
+            this.setCachorroNoBosque(2);
+            System.out.println("Cachorro do caçador "+Mapa.COR_NOME[this.getCor()]+ " entrou no bosque");
 
-
-        if (cachorro_em_campo == 1) {
-
-            this.set_cachorro_em_campo(2);
-            anuncia_lancar_cachorro();
-
-            cachorro2.setPote_atual(Bosque.getInstance().getPoteNumero(1));
-
-                cachorro2.start();
-
+            cachorro2.setPoteAtual(Mapa.getInstance().getPoteNumero(1));
+            //starta a Thread synchronized
+            cachorro2.start();
         } else {
 
-            this.set_cachorro_em_campo(1);
-            anuncia_lancar_cachorro();
-
-
-            cachorro1.setPote_atual(Bosque.getInstance().getPoteNumero(1));
-
-                cachorro1.start();
-
+            this.setCachorroNoBosque(1);
+            System.out.println("Cachorro do caçador "+Mapa.COR_NOME[this.getCor()]+ " entrou no bosque");
+            
+            cachorro1.setPoteAtual(Mapa.getInstance().getPoteNumero(1));
+            //starta a Thread synchronized
+            cachorro1.start();
         }
-
     }
 
-    public void set_cachorro_em_campo(int i) {
-        this.cachorro_em_campo = i;
+    public void setCachorroNoBosque(int i) {
+        this.cachorroNoBosque = i;
     }
 
-    public void receberCachorro(Cachorro cachorro) {
+    //cacador recebe moedas do cachorro
+    public void receberMoedasDoCachorro(Cachorro cachorro) {
         this.moedas += cachorro.getMoedas();
         cachorro.setMoedas(0);
-        this.anuncia_qtd_moedas();
+        System.out.println("Caçador " + Mapa.COR_NOME[this.getCor()] + " possui " + (this.getMoedas()) + " moedas");
     }
 
 
@@ -90,12 +86,9 @@ public class Cacador {
         return cor;
     }
 
-    public void anuncia_qtd_moedas() {
-        System.out.println("Caçador " + Bosque.COR_NOME[this.getCor()] + " possui " + (this.getMoedas()) + " moedas");
+//    public void anuncia_qtd_moedas() {
+//        System.out.println("Caçador " + Bosque.COR_NOME[this.getCor()] + " possui " + (this.getMoedas()) + " moedas");
+//
+//    }
 
-    }
-
-    public void anuncia_lancar_cachorro() {
-        System.out.println("Caçador " + Bosque.COR_NOME[this.getCor()] + " lança cachorro " + cachorro_em_campo);
-    }
 }

@@ -5,9 +5,6 @@
  */
 package br.UFSC.INE5611.trabalho.bosque;
 
-import br.UFSC.INE5611.trabalho.bosque.Bosque;
-import br.UFSC.INE5611.trabalho.bosque.Constantes;
-import br.UFSC.INE5611.trabalho.bosque.Pote;
 
 /**
  *
@@ -15,77 +12,75 @@ import br.UFSC.INE5611.trabalho.bosque.Pote;
  */
 public class Cachorro extends Thread {
 
-    boolean finalizar;
+    boolean cachorroRico; //com o máximo de moedas possível
     int moedas;
-    Pote pote_atual;
+    Pote poteAtual;
     int cor;
-    
-    boolean has_started = false;
+    boolean rodando = false;
 
     public Cachorro(int cor) {
         this.moedas = 0;
         this.cor = cor;
-        this.finalizar = false;
-        pote_atual = null;
+        this.cachorroRico = false;
+        poteAtual = null;
     }
 
     @Override
     public void run() {
         try {
-            if (Bosque.getInstance().isDisputaAcontecendo() && !this.finalizar) {
-                this.anuncia_procura_pote(pote_atual.getNumero());
-                pote_atual.procurar(this);
+            if (Bosque.getInstance().isJogoRodando() && !this.cachorroRico) {
+                        //imprime que o cachorro está procurando no pote
+                        System.out.println("Cachorro " + Mapa.COR_NOME[this.getCor()] 
+                            + " está procurando moedas no pote " + (poteAtual.getNumero()));
+                
+                poteAtual.procurar(this);
                 this.run();
-                this.has_started = true;
-            } else if (Bosque.getInstance().isDisputaAcontecendo() && this.finalizar) {
-                Pote pote_volta = pote_atual.caminhoVolta();
-                this.anuncia_retorno_pote(pote_atual.getNumero(), pote_volta.getNumero());
+                this.rodando = true;
+                
+            } else if (Bosque.getInstance().isJogoRodando() && this.cachorroRico) {
+                Pote poteDeVolta = poteAtual.caminhoVolta();
+                
+                        //imprime que o cachorro está rico e fazendo o cominho de volta
+                        System.out.println("Cachorro " + Mapa.COR_NOME[this.getCor()] 
+                            + " voltando a partir do pote" + (poteAtual.getNumero()) 
+                            + " para o pote " + poteDeVolta.getNumero() );
 
-                if (pote_volta.getNumero() == 1) {
+                if (poteDeVolta.getNumero() == 1) {
                 } else {
-                    this.setPote_atual(pote_volta);
+                    this.setPoteAtual(poteDeVolta);
                     this.run();
-                    this.has_started = true;
+                    this.rodando = true;
                 }
             }
-
             Cachorro.sleep(Constantes.TEMPO.getNumero());
         } catch (Exception ex) {
+            System.out.println("Ops, deu crash com a Thread / cachorro cor "+this.cor);
             ex.printStackTrace();
         }
     }
 
-    public boolean isHas_started() {
-        return has_started;
+    public boolean isRodando() {
+        return rodando;
     }
 
-    public void setHas_started(boolean has_started) {
-        this.has_started = has_started;
+    public void setRodando(boolean rodando) {
+        this.rodando = rodando;
     }
 
-    public void add_moedas(int moedas) {
+    public void cachorroPegaMoedas(int moedas) {
         this.moedas += moedas;
         if (this.moedas >= Constantes.MOEDAS_PARA_VOLTAR.getNumero()) {
-//            System.out.println("Voltar para o dono");
-            this.finalizar = true;
+            System.out.println("Voltar para o cacador");
+            this.cachorroRico = true;
         }
     }
 
     public void dormir() throws InterruptedException {
-        System.out.println("Dormir");
+        System.out.println("Botando o cachorro para dormir");
+        // native void sleep(long l)
+        // Thread dorme pelo tempo passado (1)
+        // cede o processador para outra Thread
         Cachorro.sleep(Constantes.TEMPO.getNumero() * Constantes.TEMPO.getNumero());
-        
-    }
-
-    public void anuncia_procura_pote(int i) {
-        System.out.println("Cachorro " + Bosque.COR_NOME[this.getCor()] + " procurando moedas no pote " + (i));
-
-    }
-
-
-    public void anuncia_retorno_pote(int i, int j) {
-        System.out.println("Cachorro " + Bosque.COR_NOME[this.getCor()] + " voltando a partir do pote" + (i) + " para o pote " + j );
-
     }
 
     public int getMoedas() {
@@ -96,12 +91,12 @@ public class Cachorro extends Thread {
         this.moedas = moedas;
     }
 
-    public Pote getPote_atual() {
-        return pote_atual;
+    public Pote getPoteAtual() {
+        return poteAtual;
     }
 
-    public void setPote_atual(Pote pote_atual) {
-        this.pote_atual = pote_atual;
+    public void setPoteAtual(Pote poteAtual) {
+        this.poteAtual = poteAtual;
     }
 
     public int getCor() {

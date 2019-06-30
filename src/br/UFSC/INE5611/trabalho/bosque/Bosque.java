@@ -8,13 +8,11 @@ package br.UFSC.INE5611.trabalho.bosque;
 import java.util.ArrayList;
 
 public class Bosque {
-
-    public static final String[] COR_NOME = {"Vermelho", "Amarelo", "Verde", "Azul"};
     
     ArrayList<Pote> potes;
     int numeroCachorros;
     Pote init;
-    boolean disputa = true;
+    boolean jogoRodando = true;
 
     Cacador cacadorAmarelo;
     Cacador cacadorVerde;
@@ -34,84 +32,84 @@ public class Bosque {
         this.cacadorAmarelo = new Cacador(Constantes.AMARELO.getNumero());
         this.cacadorVerde = new Cacador(Constantes.VERDE.getNumero());
         this.cacadorAzul = new Cacador(Constantes.AZUL.getNumero());
+//        Mapa.getInstance().criaMapa();
+//        this.setInicio(Mapa.getInstance().potes.get(1));
         this.criaMapa();
     }
 
     public void largada() {
-        cacadorAmarelo.lancar_cachorro();
-        cacadorVerde.lancar_cachorro();
-        cacadorAzul.lancar_cachorro();
+        cacadorAmarelo.cachorroEntraNoBosque();
+        cacadorVerde.cachorroEntraNoBosque();
+        cacadorAzul.cachorroEntraNoBosque();
         CachorroVermelho.getInstance().start();
     }
 
-    public boolean isDisputaAcontecendo() {
-        return disputa;
+    public boolean isJogoRodando() {
+        return jogoRodando;
     }
 
     public static int caminhoRandom(int primeiro, int segundo) {
         return primeiro + (int) (Math.random() * ((segundo - 1 - primeiro) + 1));
     }
 
-    public void receberCachorro(Cachorro cachorro) {
-        Cacador cacador_recebedor = null;
+    //receberCachorro
+    public void cachorroEntregaMoedas(Cachorro cachorro) {
+        Cacador cacador = null;
         if (cachorro.getCor() == Constantes.AMARELO.getNumero()) {
-            cacador_recebedor = this.cacadorAmarelo;
+            cacador = this.cacadorAmarelo;
         }
         if (cachorro.getCor() == Constantes.VERDE.getNumero()) {
-            cacador_recebedor = this.cacadorVerde;
+            cacador = this.cacadorVerde;
         }
         if (cachorro.getCor() == Constantes.AZUL.getNumero()) {
-            cacador_recebedor = this.cacadorAzul;
+            cacador = this.cacadorAzul;
         }
-        cacador_recebedor.receberCachorro(cachorro);
-        System.out.println(cacador_recebedor.getMoedas() + " = " + Constantes.MOEDAS_PARA_GANHAR.getNumero() + " = " + this.disputa);
-        if (cacador_recebedor.getMoedas() >= Constantes.MOEDAS_PARA_GANHAR.getNumero() && this.disputa) {
-            this.disputa = false;
+        cacador.receberMoedasDoCachorro(cachorro);
+        //System.out.println(cacador.getMoedas() + " = " + Constantes.MOEDAS_PARA_GANHAR.getNumero() + " = " + this.disputa);
+        System.out.println("Caacdor possui "+cacador.getMoedas() + " moédas. ");
+        
+        //verifica se o cacador tem moedas para ganhar
+        if (cacador.getMoedas() >= Constantes.MOEDAS_PARA_GANHAR.getNumero() && this.jogoRodando) {
+            this.jogoRodando = false;
+            System.out.println("");
             System.out.println("");
 
             CachorroVermelho.getInstance().parar_verificacao();
             System.out.println("");
+            System.out.println("");
             try {
-                if (cacadorAmarelo.getCachorro1().isHas_started()) {
+                    // verifica se está rodando
+                if (cacadorAmarelo.getCachorro1().isRodando()) {
+                    // faz os outros cachorros aguardarem
+                    // Aguarda outra thread para encerrar;
                     cacadorAmarelo.getCachorro1().join();
                 }
-                if (cacadorAmarelo.getCachorro2().isHas_started()) {
+                if (cacadorAmarelo.getCachorro2().isRodando()) {
                     cacadorAmarelo.getCachorro2().join();
                 }
 
-                if (cacadorVerde.getCachorro1().isHas_started()) {
+                if (cacadorVerde.getCachorro1().isRodando()) {
                     cacadorVerde.getCachorro1().join();
                 }
-                if (cacadorVerde.getCachorro2().isHas_started()) {
+                if (cacadorVerde.getCachorro2().isRodando()) {
                     cacadorVerde.getCachorro2().join();
                 }
 
-                if (cacadorAzul.getCachorro1().isHas_started()) {
+                if (cacadorAzul.getCachorro1().isRodando()) {
                     cacadorAzul.getCachorro1().join();
                 }
-                if (cacadorAzul.getCachorro2().isHas_started()) {
+                if (cacadorAzul.getCachorro2().isRodando()) {
                     cacadorAzul.getCachorro2().join();
                 }
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
+                System.out.println("Ops, deu crash com as Threads");
             }
 
-            this.anunciaVencedor(cacador_recebedor);
-            this.placarFinal();
-        } else if (this.disputa) {
-            cacador_recebedor.lancar_cachorro();
+            System.out.println("Cacador "+Mapa.COR_NOME[cacador.getCor()] + " venceu a disputa!");
+        } else if (this.jogoRodando) {
+            cacador.cachorroEntraNoBosque();
         }
-    }
-
-
-    private void anunciaVencedor(Cacador cacador_recebedor) {
-        System.out.println(Bosque.COR_NOME[cacador_recebedor.getCor()] + " venceu a disputa!");
-    }
-
-    public void placarFinal() {
-        System.out.println("Moedas caçador " + Bosque.COR_NOME[cacadorAmarelo.getCor()] + ": " + cacadorAmarelo.getMoedas());
-        System.out.println("Moedas caçador " + Bosque.COR_NOME[cacadorVerde.getCor()] + ": " + cacadorVerde.getMoedas());
-        System.out.println("Moedas caçador " + Bosque.COR_NOME[cacadorAzul.getCor()] + ": " + cacadorAzul.getMoedas());
     }
 
     public ArrayList getPotes() {
@@ -126,11 +124,11 @@ public class Bosque {
         this.potes.add(pote);
     }
 
-    public int getNumeroCachorro() {
+    public int getNumeroDeCachorro() {
         return numeroCachorros;
     }
 
-    public void adicionaNumeroCachorro() {
+    public void adicionaNumeroDeCachorro() {
         this.numeroCachorros += 1;
     }
 
@@ -187,50 +185,50 @@ public class Bosque {
         ArrayList<Pote> pote_disponiveis1 = new ArrayList<>();
         pote_disponiveis1.add(pote2);
         pote_disponiveis1.add(pote15);
-        pote1.set_caminhos(pote_disponiveis1);
+        pote1.setCaminhos(pote_disponiveis1);
 
         // 2
         ArrayList<Pote> pote_disponiveis2 = new ArrayList<>();
         pote_disponiveis2.add(pote1);
         pote_disponiveis2.add(pote3);
         pote_disponiveis2.add(pote5);
-        pote2.set_caminhos(pote_disponiveis2);
+        pote2.setCaminhos(pote_disponiveis2);
 
         // 3
         ArrayList<Pote> pote_disponiveis3 = new ArrayList<>();
         pote_disponiveis3.add(pote2);
         pote_disponiveis3.add(pote9);
-        pote3.set_caminhos(pote_disponiveis3);
+        pote3.setCaminhos(pote_disponiveis3);
 
         // 4
         ArrayList<Pote> pote_disponiveis4 = new ArrayList<>();
         pote_disponiveis4.add(pote2);
         pote_disponiveis4.add(pote9);
         pote_disponiveis4.add(pote10);
-        pote4.set_caminhos(pote_disponiveis4);
+        pote4.setCaminhos(pote_disponiveis4);
 
         // 5
         ArrayList<Pote> pote_disponiveis5 = new ArrayList<>();
         pote_disponiveis5.add(pote2);
         pote_disponiveis5.add(pote6);
-        pote5.set_caminhos(pote_disponiveis5);
+        pote5.setCaminhos(pote_disponiveis5);
 
         // 6
         ArrayList<Pote> pote_disponiveis6 = new ArrayList<>();
         pote_disponiveis6.add(pote5);
         pote_disponiveis6.add(pote7);
         pote_disponiveis6.add(pote8);
-        pote6.set_caminhos(pote_disponiveis6);
+        pote6.setCaminhos(pote_disponiveis6);
 
         // 7
         ArrayList<Pote> pote_disponiveis7 = new ArrayList<>();
         pote_disponiveis7.add(pote6);
-        pote7.set_caminhos(pote_disponiveis7);
+        pote7.setCaminhos(pote_disponiveis7);
 
         // 8
         ArrayList<Pote> pote_disponiveis8 = new ArrayList<>();
         pote_disponiveis8.add(pote6);
-        pote8.set_caminhos(pote_disponiveis8);
+        pote8.setCaminhos(pote_disponiveis8);
 
         // 9
         ArrayList<Pote> pote_disponiveis9 = new ArrayList<>();
@@ -238,75 +236,75 @@ public class Bosque {
         pote_disponiveis9.add(pote4);
         pote_disponiveis9.add(pote15);
         pote_disponiveis9.add(pote18);
-        pote9.set_caminhos(pote_disponiveis9);
+        pote9.setCaminhos(pote_disponiveis9);
 
         // 10
         ArrayList<Pote> pote_disponiveis10 = new ArrayList<>();
         pote_disponiveis10.add(pote4);
         pote_disponiveis10.add(pote12);
-        pote10.set_caminhos(pote_disponiveis10);
+        pote10.setCaminhos(pote_disponiveis10);
 
         // 11
         ArrayList<Pote> pote_disponiveis11 = new ArrayList<>();
         pote_disponiveis11.add(pote17);
         pote_disponiveis11.add(pote15);
         pote_disponiveis11.add(pote12);
-        pote11.set_caminhos(pote_disponiveis11);
+        pote11.setCaminhos(pote_disponiveis11);
 
         // 12
         ArrayList<Pote> pote_disponiveis12 = new ArrayList<>();
         pote_disponiveis12.add(pote11);
         pote_disponiveis12.add(pote10);
         pote_disponiveis12.add(pote13);
-        pote12.set_caminhos(pote_disponiveis12);
+        pote12.setCaminhos(pote_disponiveis12);
 
         // 13
         ArrayList<Pote> pote_disponiveis13 = new ArrayList<>();
         pote_disponiveis13.add(pote12);
-        pote13.set_caminhos(pote_disponiveis13);
+        pote13.setCaminhos(pote_disponiveis13);
 
         // 14
         ArrayList<Pote> pote_disponiveis14 = new ArrayList<>();
         pote_disponiveis14.add(pote11);
         pote_disponiveis14.add(pote16);
-        pote14.set_caminhos(pote_disponiveis14);
+        pote14.setCaminhos(pote_disponiveis14);
 
         // 15
         ArrayList<Pote> pote_disponiveis15 = new ArrayList<>();
         pote_disponiveis15.add(pote1);
         pote_disponiveis15.add(pote9);
-        pote15.set_caminhos(pote_disponiveis15);
+        pote15.setCaminhos(pote_disponiveis15);
 
         // 16
         ArrayList<Pote> pote_disponiveis16 = new ArrayList<>();
         pote_disponiveis16.add(pote18);
         pote_disponiveis16.add(pote14);
         pote_disponiveis16.add(pote20);
-        pote16.set_caminhos(pote_disponiveis16);
+        pote16.setCaminhos(pote_disponiveis16);
 
         // 17
         ArrayList<Pote> pote_disponiveis17 = new ArrayList<>();
         pote_disponiveis17.add(pote16);
         pote_disponiveis17.add(pote11);
-        pote17.set_caminhos(pote_disponiveis17);
+        pote17.setCaminhos(pote_disponiveis17);
 
         // 18
         ArrayList<Pote> pote_disponiveis18 = new ArrayList<>();
         pote_disponiveis18.add(pote9);
         pote_disponiveis18.add(pote19);
-        pote18.set_caminhos(pote_disponiveis18);
+        pote18.setCaminhos(pote_disponiveis18);
 
         // 19
         ArrayList<Pote> pote_disponiveis19 = new ArrayList<>();
         pote_disponiveis19.add(pote18);
         pote_disponiveis19.add(pote20);
-        pote19.set_caminhos(pote_disponiveis19);
+        pote19.setCaminhos(pote_disponiveis19);
 
         // 20
         ArrayList<Pote> pote_disponiveis20 = new ArrayList<>();
         pote_disponiveis20.add(pote19);
         pote_disponiveis20.add(pote19);
-        pote20.set_caminhos(pote_disponiveis20);
+        pote20.setCaminhos(pote_disponiveis20);
 
         this.setInicio(pote1);
 

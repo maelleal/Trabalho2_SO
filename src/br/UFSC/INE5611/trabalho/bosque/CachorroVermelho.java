@@ -21,16 +21,17 @@ public class CachorroVermelho extends Thread {
 
     int pote_n = 0;
     public boolean verificando = true;
+    
+    // obriga a ser sempre a mesma Thread
     public static CachorroVermelho instancia;
 
     public static CachorroVermelho getInstance() {
-
         if (instancia == null) {
-            CachorroVermelho gu = new CachorroVermelho();
-            gu.setDaemon(true);
-            instancia = gu;
+            instancia = new CachorroVermelho();
+//            CachorroVermelho gu = new CachorroVermelho();
+//            gu.setDaemon(true);
+//            instancia = gu;
         }
-
         return instancia;
     }
 
@@ -51,10 +52,10 @@ public class CachorroVermelho extends Thread {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().getPoteNumero(pote_n);
 
-                System.out.println(("Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
+                System.out.println(("Cachorro " + Mapa.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
                 if (pote.getMoedas() == 0) {
-                    pote.add_1_moeda();
-                    System.out.println("Cachorro " + Bosque.COR_NOME[0] + " Adicionou 1 moeda no pode " + pote.getNumero());
+                    pote.adicionaUmaMoeda();
+                    System.out.println("Cachorro " + Mapa.COR_NOME[0] + " Adicionou 1 moeda no pode " + pote.getNumero());
                 }
 
                 if (pote_n == 19) {
