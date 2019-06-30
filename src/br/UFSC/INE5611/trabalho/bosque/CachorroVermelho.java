@@ -5,9 +5,6 @@
  */
 package br.UFSC.INE5611.trabalho.bosque;
 
-import br.UFSC.INE5611.trabalho.bosque.Bosque;
-import br.UFSC.INE5611.trabalho.bosque.Constantes;
-import br.UFSC.INE5611.trabalho.bosque.Pote;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -19,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CachorroVermelho extends Thread {
 
-    int pote_n = 0;
+    int numeroPote = 0;
     public boolean verificando = true;
     
     // obriga a ser sempre a mesma Thread
@@ -50,7 +47,7 @@ public class CachorroVermelho extends Thread {
     public void run() {
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
-                Pote pote = Bosque.getInstance().getPoteNumero(pote_n);
+                Pote pote = Bosque.getInstance().getPoteNumero(numeroPote);
 
                 System.out.println(("Cachorro " + Mapa.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
                 if (pote.getMoedas() == 0) {
@@ -58,10 +55,10 @@ public class CachorroVermelho extends Thread {
                     System.out.println("Cachorro " + Mapa.COR_NOME[0] + " Adicionou 1 moeda no pode " + pote.getNumero());
                 }
 
-                if (pote_n == 19) {
-                    pote_n = 0;
+                if (numeroPote == 19) {
+                    numeroPote = 0;
                 } else {
-                    pote_n++;
+                    numeroPote++;
                 }
             } else {
                 future.cancel(false);
@@ -72,7 +69,7 @@ public class CachorroVermelho extends Thread {
                 } catch (InterruptedException ex) {
                 }
             }
-        }, 0, Constantes.TEMPO.getNumero() * 2, TimeUnit.MILLISECONDS);
+        }, 0, Constantes.SLEEP.getNumero() * 2, TimeUnit.MILLISECONDS);
     }
 
 //    public void teste() {

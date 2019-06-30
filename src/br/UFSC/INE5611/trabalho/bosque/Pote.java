@@ -33,7 +33,7 @@ public class Pote extends Thread {
 
     public void procurar(Cachorro cachorroProcurando) throws InterruptedException {
         //gasta 1ut para procurar
-        cachorroProcurando.sleep(Constantes.TEMPO.getNumero());
+        cachorroProcurando.sleep(Constantes.SLEEP.getNumero());
 
         //pega o mínimo entre o que tem e 3
         int moedas = this.getAteTresMoedas();
@@ -41,15 +41,6 @@ public class Pote extends Thread {
             this.adicionaCachorroDormindo(cachorroProcurando);
         } else {
             cachorroPegaMoedas(cachorroProcurando, moedas);
-            
-//            synchronized (this) {
-//                cachorroProcurando.add_moedas(moedas);
-//                this.removeMoedas(moedas);
-//                int n_caminho = Bosque.caminhoRandom(0, this.caminhos.size());
-//                cachorroProcurando.setPote_atual(
-//                        this.caminhos.get(n_caminho)
-//                );
-//            }
         }
     }
 

@@ -66,7 +66,7 @@ public class Bosque {
         }
         cacador.receberMoedasDoCachorro(cachorro);
         //System.out.println(cacador.getMoedas() + " = " + Constantes.MOEDAS_PARA_GANHAR.getNumero() + " = " + this.disputa);
-        System.out.println("Caacdor possui "+cacador.getMoedas() + " moédas. ");
+        System.out.println("Cacador possui "+cacador.getMoedas() + " moédas. ");
         
         //verifica se o cacador tem moedas para ganhar
         if (cacador.getMoedas() >= Constantes.MOEDAS_PARA_GANHAR.getNumero() && this.jogoRodando) {
@@ -107,11 +107,12 @@ public class Bosque {
             }
 
             System.out.println("Cacador "+Mapa.COR_NOME[cacador.getCor()] + " venceu a disputa!");
+            imprimePodio();
         } else if (this.jogoRodando) {
             cacador.cachorroEntraNoBosque();
         }
     }
-
+ 
     public ArrayList getPotes() {
         return potes;
     }
@@ -308,6 +309,48 @@ public class Bosque {
 
         this.setInicio(pote1);
 
+    }
+    
+    
+    private void imprimePodio() {
+        //ficou tosco mas só agora que vi que precisa do podio 
+        int moedasAm = cacadorAmarelo.getMoedas();
+        int moedasAz = cacadorAzul.getMoedas();
+        int moedasVe = cacadorVerde.getMoedas();
+        //amarelo ganha
+        if(moedasAm >= moedasAz && moedasAm >= moedasVe && moedasAz >= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+        }
+        
+        if(moedasAm >= moedasAz && moedasAm >= moedasVe && moedasAz <= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());
+        }
+        //azul ganha
+        if(moedasAm <= moedasAz && moedasAm >= moedasVe && moedasAz >= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+        }
+        if(moedasAm <= moedasAz && moedasAm <= moedasVe && moedasAz >= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
+        }
+        //verde ganha
+        if(moedasAm <= moedasAz && moedasAm <= moedasVe && moedasAz <= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());            
+        } 
+        if(moedasAm >= moedasAz && moedasAm <= moedasVe && moedasAz <= moedasVe){
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorVerde.getCor()] + " ficou com " + cacadorVerde.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
+            System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());            
+        }             
     }
 
 }

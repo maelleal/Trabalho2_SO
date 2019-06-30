@@ -52,7 +52,7 @@ public class Cachorro extends Thread {
                     this.rodando = true;
                 }
             }
-            Cachorro.sleep(Constantes.TEMPO.getNumero());
+            Cachorro.sleep(Constantes.SLEEP.getNumero());
         } catch (Exception ex) {
             System.out.println("Ops, deu crash com a Thread / cachorro cor "+this.cor);
             ex.printStackTrace();
@@ -78,9 +78,9 @@ public class Cachorro extends Thread {
     public void dormir() throws InterruptedException {
         System.out.println("Botando o cachorro para dormir");
         // native void sleep(long l)
-        // Thread dorme pelo tempo passado (1)
+        // Thread dorme pelo tempo passado (60ut * 100mls)
         // cede o processador para outra Thread
-        Cachorro.sleep(Constantes.TEMPO.getNumero() * Constantes.TEMPO.getNumero());
+        Cachorro.sleep(Constantes.SLEEP.getNumero());
     }
 
     public int getMoedas() {
