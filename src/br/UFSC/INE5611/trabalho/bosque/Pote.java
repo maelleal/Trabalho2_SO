@@ -33,7 +33,7 @@ public class Pote extends Thread {
 
     public void procurar(Cachorro cachorroProcurando) throws InterruptedException {
         //gasta 1ut para procurar
-        cachorroProcurando.sleep(Constantes.SLEEP.getNumero());
+        cachorroProcurando.sleep(Constantes.SHORTSLEEP.getNumero());
 
         //pega o mínimo entre o que tem e 3
         int moedas = this.getAteTresMoedas();
@@ -111,9 +111,6 @@ public class Pote extends Thread {
                 
                 //se não, segue para o proximo pote
                 int caminhoProximoPote = Bosque.caminhoRandom(0, this.caminhos.size());
-                System.out.println("O proximo pode será o " + this.caminhos.get(caminhoProximoPote)
-                    + "--------------------------");
-                
                 cachorro.setPoteAtual(this.caminhos.get(caminhoProximoPote));
             }
             cachorro.dormirCurto();

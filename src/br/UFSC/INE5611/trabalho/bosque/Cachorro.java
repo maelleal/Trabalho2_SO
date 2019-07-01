@@ -85,7 +85,6 @@ public class Cachorro extends Thread {
     }
 
     public void dormirCurto() throws InterruptedException {
-        System.out.println("Aguardando 1ut");
         Cachorro.sleep(Constantes.SHORTSLEEP.getNumero());
     }
 

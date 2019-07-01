@@ -66,7 +66,7 @@ public class Bosque {
         }
         cacador.receberMoedasDoCachorro(cachorro);
         //System.out.println(cacador.getMoedas() + " = " + Constantes.MOEDAS_PARA_GANHAR.getNumero() + " = " + this.disputa);
-        System.out.println("Cacador possui "+cacador.getMoedas() + " moédas. ");
+        System.out.println("Cacador possui "+cacador.getMoedas() + " moédas. ---------------------------------------------------------------");
         
         //verifica se o cacador tem moedas para ganhar
         if (cacador.getMoedas() >= Constantes.MOEDAS_PARA_GANHAR.getNumero() && this.jogoRodando) {
@@ -351,6 +351,7 @@ public class Bosque {
             System.out.println("Cacador " +Mapa.COR_NOME[cacadorAmarelo.getCor()] + " ficou com " + cacadorAmarelo.getMoedas());
             System.out.println("Cacador " +Mapa.COR_NOME[cacadorAzul.getCor()] + " ficou com " + cacadorAzul.getMoedas());            
         }             
+        System.exit(0);
     }
 
 }

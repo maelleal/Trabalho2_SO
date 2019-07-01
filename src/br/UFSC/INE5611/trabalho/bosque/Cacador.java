@@ -52,7 +52,7 @@ public class Cacador {
             this.setCachorroNoBosque(2);
             System.out.println("Cachorro do caçador "+Mapa.COR_NOME[this.getCor()]+ " entrou no bosque");
 
-            cachorro2.setPoteAtual(Mapa.getInstance().getPoteNumero(1));
+            cachorro2.setPoteAtual(Bosque.getInstance().getPoteNumero(1));
             //starta a Thread synchronized
             cachorro2.start();
         } else {
@@ -60,7 +60,7 @@ public class Cacador {
             this.setCachorroNoBosque(1);
             System.out.println("Cachorro do caçador "+Mapa.COR_NOME[this.getCor()]+ " entrou no bosque");
             
-            cachorro1.setPoteAtual(Mapa.getInstance().getPoteNumero(1));
+            cachorro1.setPoteAtual(Bosque.getInstance().getPoteNumero(1));
             //starta a Thread synchronized
             cachorro1.start();
         }
