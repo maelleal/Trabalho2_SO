@@ -74,7 +74,7 @@ public class Bosque {
             System.out.println("");
             System.out.println("");
 
-            CachorroVermelho.getInstance().parar_verificacao();
+            CachorroVermelho.getInstance().pararVerificacao();
             System.out.println("");
             System.out.println("");
             try {

@@ -15,11 +15,11 @@ public enum Constantes {
     AMARELO(1),
     VERDE(2),
     AZUL(3),
-    TEMPO(500),
+    TEMPO(200),
     MOEDAS_PARA_GANHAR(50),
     //as moedas do dono + moedas do cachorro podem somar os 50
     MOEDAS_PARA_VOLTAR(20),
-    SLEEP(60 * 100),
+    SLEEP(60 * 50),
     SHORTSLEEP(100),
     MOEDAS_INICIAIS(4);
 

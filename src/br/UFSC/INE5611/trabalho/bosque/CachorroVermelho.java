@@ -25,26 +25,30 @@ public class CachorroVermelho extends Thread {
     public static CachorroVermelho getInstance() {
         if (instancia == null) {
             instancia = new CachorroVermelho();
-//            CachorroVermelho gu = new CachorroVermelho();
-//            gu.setDaemon(true);
-//            instancia = gu;
         }
         return instancia;
     }
 
-    ScheduledExecutorService execService = Executors.newSingleThreadScheduledExecutor();
-    ScheduledFuture<?> future;
+    ScheduledExecutorService execService = Executors.newSingleThreadScheduledExecutor();//unica thread
+    //A delayed result-bearing action that can be cancelled. Usually a scheduled future is the result of scheduling a task with a
+    ScheduledFuture<?> future; // para agendar
 
-    public synchronized void set_verificando() {
+    public synchronized void setVerificando() {
         this.verificando = true;
     }
 
-    public void parar_verificacao() {
+    public void pararVerificacao() {
         this.verificando = false;
     }
 
     @Override
     public void run() {
+        
+    //        command - the task to execute
+    //        initialDelay - the time to delay first execution
+    //        period - the period between successive executions
+    //        unit - the time unit of the initialDelay and period parameters
+    //        a cada 2ut ele lança o cachorro vermelho
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().getPoteNumero(numeroPote);
@@ -72,29 +76,4 @@ public class CachorroVermelho extends Thread {
         }, 0, Constantes.TEMPO.getNumero() * 2, TimeUnit.MILLISECONDS);
     }
 
-//    public void teste() {
-//        if (this.verificando) {
-//            Pote pote = Bosque.getInstance().get_pote_n(pote_n);
-//
-//            System.out.println(("Cachorro " + Bosque.COR_NOME[0] + " verificando Pote " + (pote.get_num()) + " || " + pote.getMoedas()).toUpperCase());
-//            if (pote.getMoedas() == 0) {
-//                pote.add_1_moeda();
-//                System.out.println("Cachorro " + Bosque.COR_NOME[0] + "Adicionou 1 moéda no pode " + pote.get_num());
-//            }
-//
-//            if (pote_n == 19) {
-//                pote_n = 0;
-//            } else {
-//                pote_n++;
-//            }
-//        } else {
-//            future.cancel(false);
-//            execService.shutdown();
-//
-//            try {
-//                this.join();
-//            } catch (InterruptedException ex) {
-//            }
-//        }
-//    }
 }

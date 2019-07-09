@@ -46,6 +46,7 @@ public class Cachorro extends Thread {
                             + " para o pote " + poteDeVolta.getNumero() );
 
                 if (poteDeVolta.getNumero() == 1) {
+                    Bosque.getInstance().cachorroEntregaMoedas(this);
                 } else {
                     this.setPoteAtual(poteDeVolta);
                     this.run();
