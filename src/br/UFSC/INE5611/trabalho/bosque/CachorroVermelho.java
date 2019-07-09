@@ -49,6 +49,8 @@ public class CachorroVermelho extends Thread {
     //        period - the period between successive executions
     //        unit - the time unit of the initialDelay and period parameters
     //        a cada 2ut ele lança o cachorro vermelho
+    //        scheduleAtFixedRate(Runnable r, long l, long l1, TimeUnit tu);
+    
         future = execService.scheduleAtFixedRate(() -> {
             if (this.verificando) {
                 Pote pote = Bosque.getInstance().getPoteNumero(numeroPote);
@@ -56,6 +58,7 @@ public class CachorroVermelho extends Thread {
                 System.out.println(("Cachorro " + Mapa.COR_NOME[0] + " verificando Pote " + (pote.getNumero()) + " Quantidade de moedas no pote: " + pote.getMoedas()).toUpperCase());
                 if (pote.getMoedas() == 0) {
                     pote.adicionaUmaMoeda();
+                    //pote.acordaTodos();
                     System.out.println("Cachorro " + Mapa.COR_NOME[0] + " Adicionou 1 moeda no pode " + pote.getNumero());
                 }
 

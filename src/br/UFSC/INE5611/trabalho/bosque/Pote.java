@@ -116,5 +116,17 @@ public class Pote extends Thread {
             cachorro.dormirCurto();
         }
     }
+    
+//     public void acordaTodos() throws InterruptedException {
+//          System.out.println("ACORDAAAAAAAAAAAAAA");
+//        if (!this.cachorrosDormindo.isEmpty()) {
+//            this.cachorrosDormindo.notifyAll();
+//            this.cachorrosDormindo.get(0).interrupt();
+//            this.cachorrosDormindo.get(0).run();
+//            System.out.println("ACORDAAAAAAAAAAAAAAAAAACORDAAAAAAAAAAAAAAAAAACORDAAAAAAAAAAAAAAAAAACORDAAAAAAAAAAAAAAAAAACORDAAAAAAAAAAAAAAAAAACORDAAAAAAAAAAAAAAAAA");
+//            this.cachorrosDormindo.removeAll(this.cachorrosDormindo);
+//        }
+//
+//    }
 
 }

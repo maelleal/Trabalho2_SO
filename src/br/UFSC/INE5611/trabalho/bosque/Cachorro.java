@@ -79,10 +79,12 @@ public class Cachorro extends Thread {
 
     public void dormir() throws InterruptedException {
         System.out.println("Botando o cachorro para dormir");
+        
         // native void sleep(long l)
         // Thread dorme pelo tempo passado (60ut * 100mls)
         // cede o processador para outra Thread
         Cachorro.sleep(Constantes.SLEEP.getNumero());
+       
     }
 
     public void dormirCurto() throws InterruptedException {
